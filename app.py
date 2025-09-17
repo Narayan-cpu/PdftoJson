@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-pdf_to_structured_json.py
+app.py
 
 Usage:
-    python pdf_to_structured_json.py input.pdf output.json
+    pip install -r requirements.txt
+    python app.py input.pdf output.json
 
 Description:
     Parses input.pdf and writes structured JSON to output.json.
-    JSON contains pages -> content[] where each content block is
-    a paragraph, table, chart (or image), with optional section/sub_section labels.
+    Extracts text (with headings), tables, images, and charts.
 """
 
 import sys
@@ -17,18 +17,16 @@ import json
 import tempfile
 from typing import List, Dict, Any, Optional
 
-# PDF libraries
-import fitz  # PyMuPDF
+import fitz 
 import pdfplumber
 
-# Table extraction
+
 try:
     import camelot
     _HAS_CAMELot = True
 except Exception:
     _HAS_CAMELot = False
 
-# OCR + image processing
 try:
     import pytesseract
     from PIL import Image
@@ -45,7 +43,7 @@ except Exception:
 
 import pandas as pd
 
-# ---------- Utility helpers ----------
+# ---------- Utility helpers ---------- Narayan naik----
 
 def save_image_bytes_to_tempfile(img_bytes: bytes, suffix=".png") -> str:
     fd, path = tempfile.mkstemp(suffix=suffix)
@@ -364,7 +362,7 @@ def process_pdf(input_pdf_path: str) -> Dict[str, Any]:
                     "table_data": t
                 })
 
-            # 3) Image extraction & chart detection
+     
             images = extract_images_with_fitz(doc, i)
             for idx, imginfo in enumerate(images):
                 img_bytes = imginfo["image_bytes"]
@@ -391,7 +389,7 @@ def process_pdf(input_pdf_path: str) -> Dict[str, Any]:
             result["pages"].append(page_entry)
     return result
 
-# ---------- CLI entry point ----------
+# ---------- CLI entry point ---------- written by Narayan naik----
 
 def main():
     if len(sys.argv) < 3:
