@@ -1,0 +1,8 @@
+pymupdf
+pdfplumber
+camelot-py[cv]
+pytesseract
+pillow
+opencv-python-headless
+numpy
+pandas
