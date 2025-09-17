@@ -364,7 +364,7 @@ def process_pdf(input_pdf_path: str) -> Dict[str, Any]:
                     "table_data": t
                 })
 
-            # 3) Image extraction & chart detection
+     
             images = extract_images_with_fitz(doc, i)
             for idx, imginfo in enumerate(images):
                 img_bytes = imginfo["image_bytes"]
