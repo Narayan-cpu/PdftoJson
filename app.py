@@ -9,6 +9,7 @@ Usage:
 Description:
     Parses input.pdf and writes structured JSON to output.json.
     Extracts text (with headings), tables, images, and charts.
+    Author: Narayan Naik
 """
 
 import sys
@@ -60,7 +61,7 @@ def page_image_from_fitz(page, zoom=2) -> Image.Image:
     img = Image.frombytes(mode, [pix.width, pix.height], pix.samples)
     return img
 
-# ---------- Text extraction & paragraph grouping ----------
+# ---------- Text extraction & paragraph grouping ----------Narayan naik----
 
 def extract_text_blocks_pdfplumber_page(p: pdfplumber.page.Page) -> List[Dict[str, Any]]:
     """
@@ -71,8 +72,7 @@ def extract_text_blocks_pdfplumber_page(p: pdfplumber.page.Page) -> List[Dict[st
     if not words:
         return []
 
-    # Group words into lines by 'top' coordinate
-    # pdfplumber words have 'top' and 'bottom' - cluster by top with tolerance
+
     lines = {}
     for w in words:
         top = round(w.get("top", 0))
@@ -88,8 +88,7 @@ def extract_text_blocks_pdfplumber_page(p: pdfplumber.page.Page) -> List[Dict[st
         fontnames = [w.get("fontname", "") for w in words_line]
         line_texts.append({"text": text.strip(), "size": avg_size, "fontnames": fontnames})
 
-    # Now group lines into paragraphs using simple vertical gap heuristic
-    # We'll just combine consecutive lines unless there's a large gap -> new para
+
     para_list = []
     current_para = {"lines": [], "avg_size": 0}
     for L in line_texts:
@@ -130,7 +129,7 @@ def is_heading_by_text_and_size(first_line_text: str, avg_size: float) -> bool:
         return True
     return False
 
-# ---------- Table extraction ----------
+# ---------- Table extraction ----------Narayan naik----
 
 def extract_tables_for_page_using_camelot(pdf_path: str, page_number: int) -> List[List[List[str]]]:
     """
@@ -173,7 +172,7 @@ def extract_tables_pdfplumber_page(p: pdfplumber.page.Page) -> List[List[List[st
         pass
     return tables
 
-# ---------- Image & chart extraction ----------
+# ---------- Image & chart extraction ---------- Narayan naik----
 
 def extract_images_with_fitz(doc: fitz.Document, page_index: int) -> List[Dict[str, Any]]:
     """
@@ -237,7 +236,7 @@ def looks_like_chart(image_path: str) -> bool:
     except Exception:
         return False
 
-# ---------- OCR fallback ----------
+# ---------- OCR fallback ----------Narayan naik----
 
 def ocr_image_to_text(pil_image: Image.Image) -> str:
     if not _HAS_TESSERACT:
@@ -247,7 +246,7 @@ def ocr_image_to_text(pil_image: Image.Image) -> str:
     except Exception:
         return ""
 
-# ---------- Main processing per page ----------
+# ---------- Main processing per page ----------Narayan naik----
 
 def process_pdf(input_pdf_path: str) -> Dict[str, Any]:
     """
