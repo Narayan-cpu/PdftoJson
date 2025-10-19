@@ -96,7 +96,5 @@ python app.py input.pdf output.json
 ---
 
 ## 👨‍💻 Author
-
 **Narayan Naik**
-
 ---
